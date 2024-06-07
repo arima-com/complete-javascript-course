@@ -61,6 +61,48 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// 🔷 display movements
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+
+  movements.forEach((mov, index) => {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+  <div class="movements__row">
+  <div class="movements__type movements__type--${type}">${
+      index + 1
+    } ${type}</div>
+  <div class="movements__date">${index} days ago</div>
+  <div class="movements__value">${mov}€</div>
+  </div>
+  `;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+displayMovements(account1.movements);
+
+// 🔷 display balance
+const calcDisplayBalance = movements => {
+  const balance = movements.reduce((acc, mov) => {
+    return acc + mov;
+  });
+  labelBalance.textContent = `${balance}€`;
+};
+calcDisplayBalance(account1.movements);
+
+// 🔷 username
+const createUsernames = accounts => {
+  accounts.forEach(account => {
+    account.username = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
